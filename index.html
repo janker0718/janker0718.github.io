@@ -835,12 +835,8 @@
       
         
           <p><br/></p>
-<h3 id="一、WebView-setWebViewClient-new-MyWebViewClient"><a href="#一、WebView-setWebViewClient-new-MyWebViewClient" class="headerlink" title="一、WebView.setWebViewClient(new MyWebViewClient());"></a>一、WebView.setWebViewClient(new MyWebViewClient());</h3><p>Java</p>
-<pre><code>public boolean shouldOverrideUrlLoading(WebView             view, String url) { 
-       onWebPageShouldLoad(view, url);  //通过
-       return true;
-  }
-</code></pre><p>在点击请求的是链接是才会调用，重写此方法返回true表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边。<br><br>
+<h3 id="一、WebView-setWebViewClient-new-MyWebViewClient"><a href="#一、WebView-setWebViewClient-new-MyWebViewClient" class="headerlink" title="一、WebView.setWebViewClient(new MyWebViewClient());"></a>一、WebView.setWebViewClient(new MyWebViewClient());</h3><p>Java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView 			view, String url)</span> </span>&#123; </div><div class="line">     		onWebPageShouldLoad(view, url);  <span class="comment">//通过</span></div><div class="line">     		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
+<p>在点击请求的是链接是才会调用，重写此方法返回true表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边。<br><br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/08/14/Webview与Html5交互/#more" rel="contents">
               阅读全文 &raquo;

@@ -84,25 +84,16 @@
 
 
 
-<meta name="description" content="一、WebView.setWebViewClient(new MyWebViewClient());Java
-public boolean shouldOverrideUrlLoading(WebView             view, String url) { 
-       onWebPageShouldLoad(view, url);  //通过
-       return true">
+<meta name="description" content="一、WebView.setWebViewClient(new MyWebViewClient());Java1234public boolean shouldOverrideUrlLoading(WebView 			view, String url) &amp;#123;      		onWebPageShouldLoad(view, url);  //通过     		return true;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Webview与Html5交互">
 <meta property="og:url" content="http://janker.cc/2015/08/14/Webview与Html5交互/index.html">
 <meta property="og:site_name" content="Janker's Blog">
-<meta property="og:description" content="一、WebView.setWebViewClient(new MyWebViewClient());Java
-public boolean shouldOverrideUrlLoading(WebView             view, String url) { 
-       onWebPageShouldLoad(view, url);  //通过
-       return true">
-<meta property="og:updated_time" content="2016-08-14T10:53:08.000Z">
+<meta property="og:description" content="一、WebView.setWebViewClient(new MyWebViewClient());Java1234public boolean shouldOverrideUrlLoading(WebView 			view, String url) &amp;#123;      		onWebPageShouldLoad(view, url);  //通过     		return true;">
+<meta property="og:updated_time" content="2016-08-25T07:56:53.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webview与Html5交互">
-<meta name="twitter:description" content="一、WebView.setWebViewClient(new MyWebViewClient());Java
-public boolean shouldOverrideUrlLoading(WebView             view, String url) { 
-       onWebPageShouldLoad(view, url);  //通过
-       return true">
+<meta name="twitter:description" content="一、WebView.setWebViewClient(new MyWebViewClient());Java1234public boolean shouldOverrideUrlLoading(WebView 			view, String url) &amp;#123;      		onWebPageShouldLoad(view, url);  //通过     		return true;">
 
 
 
@@ -332,94 +323,24 @@ public boolean shouldOverrideUrlLoading(WebView             view, String url) {
 
       
         <p><br></p>
-<h3 id="一、WebView-setWebViewClient-new-MyWebViewClient"><a href="#一、WebView-setWebViewClient-new-MyWebViewClient" class="headerlink" title="一、WebView.setWebViewClient(new MyWebViewClient());"></a>一、WebView.setWebViewClient(new MyWebViewClient());</h3><p>Java</p>
-<pre><code>public boolean shouldOverrideUrlLoading(WebView             view, String url) { 
-       onWebPageShouldLoad(view, url);  //通过
-       return true;
-  }
-</code></pre><p>在点击请求的是链接是才会调用，重写此方法返回true表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边。<br><br><a id="more"></a><br>坑爹之处1：Android 2.3.x WebView中的两个搞笑的bug : <a href="http://blog.csdn.net/thestoryoftony/article/details/7844287" target="_blank" rel="external">http://blog.csdn.net/thestoryoftony/article/details/7844287</a></p>
+<h3 id="一、WebView-setWebViewClient-new-MyWebViewClient"><a href="#一、WebView-setWebViewClient-new-MyWebViewClient" class="headerlink" title="一、WebView.setWebViewClient(new MyWebViewClient());"></a>一、WebView.setWebViewClient(new MyWebViewClient());</h3><p>Java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView 			view, String url)</span> </span>&#123; </div><div class="line">     		onWebPageShouldLoad(view, url);  <span class="comment">//通过</span></div><div class="line">     		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
+<p>在点击请求的是链接是才会调用，重写此方法返回true表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边。<br><br><a id="more"></a><br>坑爹之处1：Android 2.3.x WebView中的两个搞笑的bug : <a href="http://blog.csdn.net/thestoryoftony/article/details/7844287" target="_blank" rel="external">http://blog.csdn.net/thestoryoftony/article/details/7844287</a></p>
 <p>解决办法： 将逻辑加在onPageStarted中处理。</p>
-<p>Java</p>
-<pre><code>public void onPageStarted(WebView view, String         url, Bitmap favicon) {
-
-}
-</code></pre><p>在页面加载开始时调用。</p>
+<p>Java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageStarted</span><span class="params">(WebView view, String 		url, Bitmap favicon)</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在页面加载开始时调用。</p>
 <p>shouldOverrideUrlLoading与onPageStarted区别：</p>
 <p>当点击页面中的链接的时候他们俩都会执行，但是返回到上一个页面的时候onPageStarted会执行，但是shouldOverrideUrlLoading就不执行了，就是onPageStarted什么时候都执行的</p>
 <p>Java</p>
-<pre><code>public void onPageFinished(WebView view, String url)     {
-       onWebPageLoaded(view, url);
- }
-public void onPageFinished ( WebView view , String     url ) {
-
-onWebPageLoaded ( view , url ) ;
-
-}
-</code></pre><p>在页面加载结束时调用。</p>
-<h3 id="二、WebView-setWebChromeClient-new-MyWebChromeClient"><a href="#二、WebView-setWebChromeClient-new-MyWebChromeClient" class="headerlink" title="二、WebView.setWebChromeClient(new MyWebChromeClient());"></a>二、WebView.setWebChromeClient(new MyWebChromeClient());</h3><p>Java</p>
-<pre><code>public void onReceivedTitle(WebView view, String     title) {
-//设置Actionbar的Title
-}
-
-public void onProgressChanged(WebView view, int     progress) {
-//设置页面加载进度
-}
-
-@Override
-public boolean onJsConfirm(WebView view, String url,     String message, final JsResult result) {
-//弹出框处理（alert，confirm）
-}
-</code></pre><h3 id="三、WebView-addJavascriptInterface-jsObject-“jsObj”"><a href="#三、WebView-addJavascriptInterface-jsObject-“jsObj”" class="headerlink" title="三、WebView.addJavascriptInterface(jsObject, “jsObj”);"></a>三、WebView.addJavascriptInterface(jsObject, “jsObj”);</h3><h4 id="1-先写一个接口类"><a href="#1-先写一个接口类" class="headerlink" title="1.先写一个接口类"></a>1.先写一个接口类</h4><p>Java</p>
-<pre><code>public class JsInteface{
-//分享相关的内容
-private String mTitle;
-private String mDes;
-private String mLink;
-private String mImgUrl;
-private String mBigImgUrl;
-
-@JavascriptInterface
-public void setShareContent(String Title,String Des,String Link,String ImgUrl,String BigImgUrl)
-{
-     mTitle=Title;
-     mDes=Des;
-     mLink=Link;
-     mImgUrl=ImgUrl;
-     mBigImgUrl=BigImgUrl;
-     Log.i(&quot;OUTPUT&quot;, &quot;11title:&quot;+mTitle+&quot;  desc:&quot;+mDes+&quot;   mLink&quot;+mLink+&quot;    mImgUrl&quot;+mImgUrl+&quot;    mBigImgUrl&quot;+mBigImgUrl);
-}
-}
-</code></pre><h4 id="2-向webview中注入接口类的对象-WebView-addJavascriptInterface-jsObject-“jsObj”"><a href="#2-向webview中注入接口类的对象-WebView-addJavascriptInterface-jsObject-“jsObj”" class="headerlink" title="2.向webview中注入接口类的对象 WebView.addJavascriptInterface(jsObject, “jsObj”);"></a>2.向webview中注入接口类的对象 <code>WebView.addJavascriptInterface(jsObject, “jsObj”);</code></h4><h4 id="3-调用注入对象的js"><a href="#3-调用注入对象的js" class="headerlink" title="3.调用注入对象的js"></a>3.调用注入对象的js</h4><p>Java</p>
-<pre><code>mWebView.loadUrl(&quot;javascript:window.jsObj.setShareContent(document.getElementById(&apos;app_title&apos;).innerHTML,&quot;
-    + &quot;document.getElementById(&apos;app_desc&apos;).innerHTML,&quot;
-    + &quot;document.getElementById(&apos;app_link&apos;).innerHTML,&quot;
-    + &quot;document.getElementById(&apos;app_img_url&apos;).src,&quot;
-    + &quot;document.getElementById(&apos;app_big_img_url&apos;).src)&quot;);
-mWebView . loadUrl ( &quot;javascript:window.jsObj.setShareContent(document.getElementById(&apos;app_title&apos;).innerHTML,&quot;
-
-+ &quot;document.getElementById(&apos;app_desc&apos;).innerHTML,&quot;
-
-+ &quot;document.getElementById(&apos;app_link&apos;).innerHTML,&quot;
-
-+ &quot;document.getElementById(&apos;app_img_url&apos;).src,&quot;
-
-+ &quot;document.getElementById(&apos;app_big_img_url&apos;).src)&quot; ) ;
-</code></pre><p>坑爹之处2：Webview.addJavascriptInterface() does not work on API 17</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageFinished</span><span class="params">(WebView view, String url)</span> 	</span>&#123;</div><div class="line">       onWebPageLoaded(view, url);</div><div class="line"> &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageFinished</span> <span class="params">( WebView view , String 	url )</span> </span>&#123;</div><div class="line"></div><div class="line">onWebPageLoaded ( view , url ) ;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在页面加载结束时调用。</p>
+<h3 id="二、WebView-setWebChromeClient-new-MyWebChromeClient"><a href="#二、WebView-setWebChromeClient-new-MyWebChromeClient" class="headerlink" title="二、WebView.setWebChromeClient(new MyWebChromeClient());"></a>二、WebView.setWebChromeClient(new MyWebChromeClient());</h3><p>Java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceivedTitle</span><span class="params">(WebView view, String 	title)</span> </span>&#123;</div><div class="line"><span class="comment">//设置Actionbar的Title</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(WebView view, <span class="keyword">int</span> 	progress)</span> </span>&#123;</div><div class="line"><span class="comment">//设置页面加载进度</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onJsConfirm</span><span class="params">(WebView view, String url, 	String message, <span class="keyword">final</span> JsResult result)</span> </span>&#123;</div><div class="line"><span class="comment">//弹出框处理（alert，confirm）</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="三、WebView-addJavascriptInterface-jsObject-“jsObj”"><a href="#三、WebView-addJavascriptInterface-jsObject-“jsObj”" class="headerlink" title="三、WebView.addJavascriptInterface(jsObject, “jsObj”);"></a>三、WebView.addJavascriptInterface(jsObject, “jsObj”);</h3><h4 id="1-先写一个接口类"><a href="#1-先写一个接口类" class="headerlink" title="1.先写一个接口类"></a>1.先写一个接口类</h4><p>Java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JsInteface</span></span>&#123;</div><div class="line"><span class="comment">//分享相关的内容</span></div><div class="line"><span class="keyword">private</span> String mTitle;</div><div class="line"><span class="keyword">private</span> String mDes;</div><div class="line"><span class="keyword">private</span> String mLink;</div><div class="line"><span class="keyword">private</span> String mImgUrl;</div><div class="line"><span class="keyword">private</span> String mBigImgUrl;</div><div class="line"></div><div class="line"><span class="meta">@JavascriptInterface</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setShareContent</span><span class="params">(String Title,String Des,String Link,String ImgUrl,String BigImgUrl)</span></span></div><div class="line">&#123;</div><div class="line">     mTitle=Title;</div><div class="line">     mDes=Des;</div><div class="line">     mLink=Link;</div><div class="line">     mImgUrl=ImgUrl;</div><div class="line">     mBigImgUrl=BigImgUrl;</div><div class="line">     Log.i(<span class="string">"OUTPUT"</span>, <span class="string">"11title:"</span>+mTitle+<span class="string">"  desc:"</span>+mDes+<span class="string">"   mLink"</span>+mLink+<span class="string">"    mImgUrl"</span>+mImgUrl+<span class="string">"    mBigImgUrl"</span>+mBigImgUrl);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="2-向webview中注入接口类的对象-WebView-addJavascriptInterface-jsObject-“jsObj”"><a href="#2-向webview中注入接口类的对象-WebView-addJavascriptInterface-jsObject-“jsObj”" class="headerlink" title="2.向webview中注入接口类的对象 WebView.addJavascriptInterface(jsObject, “jsObj”);"></a>2.向webview中注入接口类的对象 <code>WebView.addJavascriptInterface(jsObject, “jsObj”);</code></h4><h4 id="3-调用注入对象的js"><a href="#3-调用注入对象的js" class="headerlink" title="3.调用注入对象的js"></a>3.调用注入对象的js</h4><p>Java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">mWebView.loadUrl(<span class="string">"javascript:window.jsObj.setShareContent(document.getElementById('app_title').innerHTML,"</span></div><div class="line">    + <span class="string">"document.getElementById('app_desc').innerHTML,"</span></div><div class="line">    + <span class="string">"document.getElementById('app_link').innerHTML,"</span></div><div class="line">    + <span class="string">"document.getElementById('app_img_url').src,"</span></div><div class="line">    + <span class="string">"document.getElementById('app_big_img_url').src)"</span>);</div><div class="line">mWebView . loadUrl ( <span class="string">"javascript:window.jsObj.setShareContent(document.getElementById('app_title').innerHTML,"</span></div><div class="line"></div><div class="line">+ <span class="string">"document.getElementById('app_desc').innerHTML,"</span></div><div class="line"></div><div class="line">+ <span class="string">"document.getElementById('app_link').innerHTML,"</span></div><div class="line"></div><div class="line">+ <span class="string">"document.getElementById('app_img_url').src,"</span></div><div class="line"></div><div class="line">+ <span class="string">"document.getElementById('app_big_img_url').src)"</span> ) ;</div></pre></td></tr></table></figure>
+<p>坑爹之处2：Webview.addJavascriptInterface() does not work on API 17</p>
 <p><a href="http://stackoverflow.com/questions/16353430/appview-addjavascriptinterface-does-not-work-on-api-17" target="_blank" rel="external">http://stackoverflow.com/questions/16353430/appview-addjavascriptinterface-does-not-work-on-api-17</a><br>解决办法： 在接口方法前加上 @JavascriptInterface，并且引入该类，import android.webkit.JavascriptInterface;</p>
-<h3 id="四、WebView-setOnKeyListener-new-View-OnKeyListener"><a href="#四、WebView-setOnKeyListener-new-View-OnKeyListener" class="headerlink" title="四、WebView.setOnKeyListener(new View.OnKeyListener())"></a>四、<b>WebView.setOnKeyListener(new View.OnKeyListener())</b></h3><p>Java</p>
-<pre><code>mWebView.setOnKeyListener(new View.OnKeyListener() {  
-            @Override  
-            public boolean onKey(View v, int keyCode, KeyEvent event) {  
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {  
-                    if (keyCode == KeyEvent.KEYCODE_BACK &amp;&amp; mWebView.canGoBack()) {  //表示按返回键
-                        mWebView.goBack();   //后退  
-                         return true;    //已处理  
-                    }  
-                }  
-                return false;  
-            }  
-        });
-</code></pre><p>这段代码是监听back按键使webview后退一个页面而不是退出webview，类似于浏览器中的后退按键。</p>
+<h3 id="四、WebView-setOnKeyListener-new-View-OnKeyListener"><a href="#四、WebView-setOnKeyListener-new-View-OnKeyListener" class="headerlink" title="四、WebView.setOnKeyListener(new View.OnKeyListener())"></a>四、<b>WebView.setOnKeyListener(new View.OnKeyListener())</b></h3><p>Java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mWebView.setOnKeyListener(<span class="keyword">new</span> View.OnKeyListener() &#123;  </div><div class="line">            <span class="meta">@Override</span>  </div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKey</span><span class="params">(View v, <span class="keyword">int</span> keyCode, KeyEvent event)</span> </span>&#123;  </div><div class="line">                <span class="keyword">if</span> (event.getAction() == KeyEvent.ACTION_DOWN) &#123;  </div><div class="line">                    <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_BACK &amp;&amp; mWebView.canGoBack()) &#123;  <span class="comment">//表示按返回键</span></div><div class="line">                        mWebView.goBack();   <span class="comment">//后退  </span></div><div class="line">                         <span class="keyword">return</span> <span class="keyword">true</span>;    <span class="comment">//已处理  </span></div><div class="line">                    &#125;  </div><div class="line">                &#125;  </div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;  </div><div class="line">            &#125;  </div><div class="line">        &#125;);</div></pre></td></tr></table></figure></p>
+<p>这段代码是监听back按键使webview后退一个页面而不是退出webview，类似于浏览器中的后退按键。</p>
 <h3 id="五、WebView-setDownloadListener-new-MyDownloadListener"><a href="#五、WebView-setDownloadListener-new-MyDownloadListener" class="headerlink" title="五、WebView.setDownloadListener(new MyDownloadListener());"></a>五、<b>WebView.setDownloadListener(new MyDownloadListener());</b></h3><p>这个API可以做下载方面的处理，自己在项目中没有使用到，这里就不做解释了。<br><br><br><a href="https://github.com/janker0718/WebViewDemo" target="_blank" rel="external">示例代码</a></p>
 
       
