@@ -1,0 +1,730 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,RecyclerView," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="概述RecyclerView已经出现了有一段时间了，相信大家也已经很熟悉使用的套路了。根据官网文档，该控件可以在有限的窗口中显示大量的数据，其实我们对这种控件还是比较熟悉的，例如：ListView,GridView。
+既然已经有了ListView和GrideView为什么还要会出现这个控件呢？RecyclerView肯定有他的过人之处，还有怎么使用它呢？
+##通过这篇博客，你将学会一下几点##">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android RecyclerView 使用完全解析[一]">
+<meta property="og:url" content="http://janker.cc/2015/08/16/Android-RecyclerView-使用完全解析[一]/index.html">
+<meta property="og:site_name" content="Janker's Blog">
+<meta property="og:description" content="概述RecyclerView已经出现了有一段时间了，相信大家也已经很熟悉使用的套路了。根据官网文档，该控件可以在有限的窗口中显示大量的数据，其实我们对这种控件还是比较熟悉的，例如：ListView,GridView。
+既然已经有了ListView和GrideView为什么还要会出现这个控件呢？RecyclerView肯定有他的过人之处，还有怎么使用它呢？
+##通过这篇博客，你将学会一下几点##">
+<meta property="og:updated_time" content="2016-08-25T07:32:33.168Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android RecyclerView 使用完全解析[一]">
+<meta name="twitter:description" content="概述RecyclerView已经出现了有一段时间了，相信大家也已经很熟悉使用的套路了。根据官网文档，该控件可以在有限的窗口中显示大量的数据，其实我们对这种控件还是比较熟悉的，例如：ListView,GridView。
+既然已经有了ListView和GrideView为什么还要会出现这个控件呢？RecyclerView肯定有他的过人之处，还有怎么使用它呢？
+##通过这篇博客，你将学会一下几点##">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","Title":"http://janker.cc/"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 2089433,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://janker.cc/2015/08/16/Android-RecyclerView-使用完全解析[一]/"/>
+
+  <title> Android RecyclerView 使用完全解析[一] | Janker's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Janker's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">如果coding不是为了promoting，那将毫无意义。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android RecyclerView 使用完全解析[一]
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-16T16:25:50+08:00" content="2015-08-16">
+              2015-08-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/16/Android-RecyclerView-使用完全解析[一]/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/16/Android-RecyclerView-使用完全解析[一]/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>RecyclerView已经出现了有一段时间了，相信大家也已经很熟悉使用的套路了。根据官网文档，该控件可以在有限的窗口中显示大量的数据，其实我们对这种控件还是比较熟悉的，例如：ListView,GridView。<br></p>
+<p>既然已经有了ListView和GrideView为什么还要会出现这个控件呢？RecyclerView肯定有他的过人之处，还有怎么使用它呢？</p>
+<p>##通过这篇博客，你将学会一下几点##</p>
+<ol>
+<li>RecyclerView与ListView相比它的优点<br></li>
+<li>RecyclerView的初步用法<br></li>
+<li>RecyclerView增加分隔线<br></li>
+<li>RecyclerView更改分隔线的样式<br></li>
+<li>RecyclerView的Adapter的用法<br></li>
+<li>RecyclerView.Adapter中刷新的几个方法的对比<br></li>
+<li>给RecyclerView增加条目点击事件<br><a id="more"></a>
+<h3 id="1-RecyclerView的优点是什么？"><a href="#1-RecyclerView的优点是什么？" class="headerlink" title="1.RecyclerView的优点是什么？"></a>1.RecyclerView的优点是什么？</h3>根据官网的文档介绍，RecyclerView是ListView的升级版，既然如此，那么RecyclerView必然有他的高明之处。现在就RecyclerView相对于ListView的<strong>优点</strong>罗列一下：<br></li>
+<li>RecylerView封装了viewholder的回收复用，也就是说RecylerView标准化了ViewHolder，编写Adapter面向的是ViewHolder而不再是View了，复用的   逻辑被封装了，写起来更加简单。<br></li>
+<li>提供了一种插拔式的体验，高度的解耦，异常的灵活，针对一个Item的显示RecylerView专门抽取出了相应的类，来控制Item的显示，使其的扩展性非常强。例如：你想控制横向或者纵向滑动列表效果可以通过LinearLayoutManager这个类来进行控制(与GridView效果对应的是GridLayoutManager,与瀑布流对应的还有StaggeredGridLayoutManager等)，也就是说RecylerView不再拘泥于ListView的线性展示方式，它也可以实现GridView的效果等多种效果。你想控制Item的分隔线，可以通过继承RecylerView的ItemDecoration这个类，然后针对自己的业务需求去书写代码。<br></li>
+<li>可以控制Item增删的动画，可以通过ItemAnimator这个类进行控制，当然针对增删的动画，RecylerView有其自己默认的实现。<br></li>
+</ol>
+<h3 id="2-RecyclerView的用法"><a href="#2-RecyclerView的用法" class="headerlink" title="2.RecyclerView的用法"></a>2.RecyclerView的用法</h3><h4 id="2-1-RecyclerView的初步用法-包括RecyclerView-Adapter用法"><a href="#2-1-RecyclerView的初步用法-包括RecyclerView-Adapter用法" class="headerlink" title="2.1 RecyclerView的初步用法(包括RecyclerView.Adapter用法)"></a>2.1 RecyclerView的初步用法(包括RecyclerView.Adapter用法)</h4><p><strong>首先简单说下使用步骤吧。</strong></p>
+<h5 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库<br></h5><p><strong>Android Studio中使用(gradle工具构建)</strong><br><code>compile &#39;com.android.support:recyclerview-v7:23.4.0&#39;</code></p>
+<p><strong>eclipse中使用(gradle工具构建)/jar包导入的形式在Android Studio或者在IntelliJ IDEA中同样适用</strong><br><br>jar包存在位置：sdk\extras\android\support\v7\recyclerview\libs 把jar包复制出来到lib目录下添加依赖即可。</p>
+<p>说了这么多，可能大家最关心的就是RecylerView应该怎么用，我们先来讨论讨论RecylerView的用法的理论知识，然后结合一个实例来体验一下RecylerView的优势首先我们需要明白的一点是使用RecylerView必须导入support-v7包，在上面我提到过RecylerView高度的解耦，异常的灵活谷歌给我们提供了多个类来控制Item的显示。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">recyclerView = (RecyclerView) findViewById(R.id.recyclerView);  </div><div class="line">LinearLayoutManager layoutManager = <span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span> );  </div><div class="line"><span class="comment">//设置布局管理器  </span></div><div class="line">recyclerView.setLayoutManager(layoutManager);  </div><div class="line"><span class="comment">//设置为垂直布局，这也是默认的  </span></div><div class="line">layoutManager.setOrientation(OrientationHelper. VERTICAL);  </div><div class="line"><span class="comment">//设置Adapter  </span></div><div class="line">recyclerView.setAdapter( recycleAdapter);  </div><div class="line"> <span class="comment">//设置分隔线  </span></div><div class="line">recyclerView.addItemDecoration( <span class="keyword">new</span> DividerGridItemDecoration(<span class="keyword">this</span> ));  </div><div class="line"><span class="comment">//设置增加或删除条目的动画  </span></div><div class="line">recyclerView.setItemAnimator( <span class="keyword">new</span> DefaultItemAnimator());</div></pre></td></tr></table></figure></p>
+<p>可以看出来对RecyclerView的设置过程，比ListView要复杂的多，这也是RecyclerView高度解耦的表现，虽然代码书写比较复杂，但是拓展性还是蛮高的。<br><br>在了解了RecyclerView的一些控制之后，紧接着来看看它的Adapter的写法，RecyclerView的Adapter与ListView的Adapter还是有点区别的，RecyclerView.Adapter，需要实现3个方法：<br><br><strong>1. onCreateViewHolder()</strong><br><br>这个方法主要生成为每个Item inflater出一个View，但是该方法返回的是一个ViewHolder。该方法把View直接封装在ViewHolder中，然后我们面向的是ViewHolder这个实例，当然这个ViewHolder需要我们自己去编写。直接省去了当初的convertView.setTag(holder)和convertView.getTag()这些繁琐的步骤。<br><br><strong>2. onBindViewHolder()</strong><br><br>这个方法主要用于适配渲染数据到View中。方法提供给你了一个viewHolder，而不是原来的convertView。<br><br><strong>3. getItemCount()</strong><br><br>这个方法就类似于BaseAdapter的getCount方法了，即总共有多少个条目。<br>实例：接着来几个小的实例帮助大家更深入的了解RecyclerView的用法，首先来实现一个最简单的列表。<br><br>MainActivity的代码如下。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line"><span class="keyword">private</span> RecyclerView recyclerView;</div><div class="line"><span class="keyword">private</span> List&lt;String&gt; mDatas;</div><div class="line"><span class="keyword">private</span> HomeAdapter mAdapter;</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line"><span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">setContentView(R.layout.activity_recycler_view);</div><div class="line">initData();</div><div class="line">recyclerView = (RecyclerView) findViewById(R.id.recycler_view);</div><div class="line">recyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</div><div class="line">recyclerView.setAdapter(mAdapter = <span class="keyword">new</span> HomeAdapter());</div><div class="line">recyclerView.addItemDecoration(<span class="keyword">new</span> DividerItemDecoration(<span class="keyword">this</span>,DividerItemDecoration.VERTICAL_LIST));</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initData</span><span class="params">()</span> </span>&#123;</div><div class="line">mDatas = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="string">'A'</span>; i &lt; <span class="string">'z'</span>; i++)</div><div class="line">&#123;</div><div class="line">mDatas.add(<span class="string">""</span> + (<span class="keyword">char</span>) i);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomeAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">HomeAdapter</span>.<span class="title">MyViewHolder</span>&gt;</span>&#123;</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">public</span> HomeAdapter.<span class="function">MyViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line">MyViewHolder holder = <span class="keyword">new</span> MyViewHolder(LayoutInflater.from(RecyclerViewTestActivity.<span class="keyword">this</span>).inflate(R.layout.item_recycler_view,parent,<span class="keyword">false</span>));</div><div class="line"><span class="keyword">return</span> holder;</div><div class="line">&#125;</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(HomeAdapter.MyViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">holder.textView.setText(mDatas.get(position));</div><div class="line">&#125;</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line"><span class="keyword">return</span> mDatas.size();</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;</div><div class="line">TextView textView;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">MyViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line"><span class="keyword">super</span>(itemView);</div><div class="line">textView = (TextView) itemView.findViewById(R.id.id_num);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从上面的代码中可以看出RecyclerView标准化了ViewHolder，编写 Adapter面向的是ViewHoder而不在是View了，复用的逻辑被封装了，写起来更加简单。其实它的写法与BaseAdapter的写法是差不多的，大家可以对比下它与getView方法写法的区别，在onCreateViewHolder方法中初始化了一个View，然后返回一个ViewHolder，这个返回的ViewHolder类似于之前在getView中的convertView.getTag()，然后在onBindViewHolder方法中去给这个ViewHolder中的控件填充值。其实它的原理跟getView是差不多的，只是做了封装，我们写起来比较简洁<br></p>
+<h4 id="2-2-RecyclerView增加分隔线"><a href="#2-2-RecyclerView增加分隔线" class="headerlink" title="2.2 RecyclerView增加分隔线"></a>2.2 RecyclerView增加分隔线</h4><p>前面我们说到可以通过RecyclerView.addItemDecoration(ItemDecoration decoration)这个方法进行设置，其中它需要的参数就是我们自己定义的继承自ItemDecoration的一个对象。我们可以创建一个继承RecyclerView.ItemDecoration类来绘制分隔线，通过ItemDecoration可以让我们每一个Item从视觉上面相互分开来，例如ListView的divider非常相似的效果。当然像我们上面的例子ItemDecoration我们没有设置也没有报错，那说明ItemDecoration我们并不是强制需要使用，作为我们开发者可以设置或者不设置Decoration的。实现一个ItemDecoration，系统提供的ItemDecoration是一个抽象类，内部除去已经废弃的方法以外，我们主要实现以下三个方法:<br><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ItemDecoration</span> </span>&#123;   </div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas c,RecyclerView parent,State state)</span> </span>&#123;   </div><div class="line">          onDraw(c,parent);   </div><div class="line">      &#125;   </div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawOver</span><span class="params">(Canvas c,RecyclerView parent,State state)</span> </span>&#123;   </div><div class="line">          onDrawOver(c,parent);   </div><div class="line">      &#125;   </div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getItemOffsets</span><span class="params">(RectoutRect, View view,RecyclerView parent,State state)</span> </span>&#123;   </div><div class="line">          getItemOffsets(outRect,((LayoutParams)view.getLayoutParams()).getViewLayoutPosition(),parent);   </div><div class="line">      &#125;   </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>又因为当我们RecyclerView在进行绘制的时候会进行绘制Decoration,那么会去调用onDraw和onDrawOver方法，那么这边我们其实只要去重写onDraw和getItemOffsets这两个方法就可以实现啦。然后LayoutManager会进行Item布局的时候，会去调用getItemOffset方法来计算每个Item的Decoration合适的尺寸，下面我们来具体实现一个Decoration，DividerItemDecoration.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DividerItemDecoration</span>  <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ItemDecoration</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span>[] ATTRS = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;</div><div class="line">            android.R.attr.listDivider</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VERTICAL_LIST = LinearLayoutManager.VERTICAL;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Drawable mDivider;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mOrientation;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DividerItemDecoration</span><span class="params">(Context context, <span class="keyword">int</span> orientation)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> TypedArray a = context.obtainStyledAttributes(ATTRS);</div><div class="line">        mDivider = a.getDrawable(<span class="number">0</span>);</div><div class="line">        a.recycle();</div><div class="line">        setOrientation(orientation);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOrientation</span><span class="params">(<span class="keyword">int</span> orientation)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (orientation != HORIZONTAL_LIST &amp;&amp; orientation != VERTICAL_LIST) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"invalid orientation"</span>);</div><div class="line">        &#125;</div><div class="line">        mOrientation = orientation;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas c, RecyclerView parent)</span> </span>&#123;</div><div class="line">        Log.v(<span class="string">"recyclerview - itemdecoration"</span>, <span class="string">"onDraw()"</span>);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (mOrientation == VERTICAL_LIST) &#123;</div><div class="line">            drawVertical(c, parent);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            drawHorizontal(c, parent);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drawVertical</span><span class="params">(Canvas c, RecyclerView parent)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> left = parent.getPaddingLeft();</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> right = parent.getWidth() - parent.getPaddingRight();</div><div class="line"></div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childCount = parent.getChildCount();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</div><div class="line">            <span class="keyword">final</span> View child = parent.getChildAt(i);</div><div class="line">            android.support.v7.widget.RecyclerView v = <span class="keyword">new</span> android.support.v7.widget.RecyclerView(parent.getContext());</div><div class="line">            <span class="keyword">final</span> RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child</div><div class="line">                    .getLayoutParams();</div><div class="line">            <span class="keyword">final</span> <span class="keyword">int</span> top = child.getBottom() + params.bottomMargin;</div><div class="line">            <span class="keyword">final</span> <span class="keyword">int</span> bottom = top + mDivider.getIntrinsicHeight();</div><div class="line">            mDivider.setBounds(left, top, right, bottom);</div><div class="line">            mDivider.draw(c);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drawHorizontal</span><span class="params">(Canvas c, RecyclerView parent)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> top = parent.getPaddingTop();</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> bottom = parent.getHeight() - parent.getPaddingBottom();</div><div class="line"></div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childCount = parent.getChildCount();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</div><div class="line">            <span class="keyword">final</span> View child = parent.getChildAt(i);</div><div class="line">            <span class="keyword">final</span> RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child</div><div class="line">                    .getLayoutParams();</div><div class="line">            <span class="keyword">final</span> <span class="keyword">int</span> left = child.getRight() + params.rightMargin;</div><div class="line">            <span class="keyword">final</span> <span class="keyword">int</span> right = left + mDivider.getIntrinsicHeight();</div><div class="line">            mDivider.setBounds(left, top, right, bottom);</div><div class="line">            mDivider.draw(c);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getItemOffsets</span><span class="params">(Rect outRect, <span class="keyword">int</span> itemPosition, RecyclerView parent)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mOrientation == VERTICAL_LIST) &#123;</div><div class="line">            outRect.set(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, mDivider.getIntrinsicHeight());</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            outRect.set(<span class="number">0</span>, <span class="number">0</span>, mDivider.getIntrinsicWidth(), <span class="number">0</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在这里我们采用系统主题(android.R.attr.listDivider)来设置成分隔线的，然后来获取尺寸,位置进行setBound(),绘制，接着通过outRect.set()来设置绘制整个区域范围，当然了它是有两种情况的一种LinearLayoutManager.HORIZONTAL另外一种LinearLayoutManager.VERTICAL需要分别对其进行处理，最后不要忘记往RecyclerView中设置该自定义的分割线,然后在MainActivity中加上一句recyclerView .addItemDecoration(new DividerItemDecoration(MainActivity.this,LinearLayoutManager.VERTICAL))即给RecyclerView增加分隔线。</p>
+<h4 id="2-3-改变分隔线样式"><a href="#2-3-改变分隔线样式" class="headerlink" title="2.3 改变分隔线样式"></a>2.3 改变分隔线样式</h4><p>那么怎么更改分隔线的样式呢？在上面的DividerItemDecoration这个类中可以看到这个分隔线是跟ListView一样的，即系统的默认的样式，因此我们可以在styles的xml文件中进行更改，更改如下：<br></p>
+<pre><code>&lt;!-- Application theme. --&gt;  
+&lt;style name =&quot;AppTheme&quot; parent=&quot;AppBaseTheme&quot;&gt;  
+    &lt;!-- All customizations that are NOT specific to a particular API-level can go here. --&gt;  
+    &lt;item name= &quot;android:listDivider&quot;&gt;@drawable/divider &lt;/item &gt;   
+&lt;/style &gt; 
+</code></pre><p>divider的内容如下：<br>    &lt;?xml version=”1.0” encoding= “utf-8”?&gt;<br>    <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">  </shape></p>
+<pre><code>        &lt;!-- 填充的颜色 --&gt;  
+       &lt;solid android:color =&quot;@color/color_red&quot;/&gt;  
+
+      &lt;!--  线条大小 --&gt;  
+      &lt;size android:height =&quot;1dp&quot; android:width =&quot;1dp&quot;/&gt;  
+&lt;/shape&gt;  
+</code></pre><p>可以看到分隔线的颜色变了，当然了这只是一个小例子，我们可以按照业务需求去更改，这样就基本实现了ListView的效果，看到这肯定会有人说，这尼玛，好麻烦，还不如ListView简单呢，从上面的代码量看来确实是使用起来很复杂，但是如果此时你想将这个列表以GridView的形式展示出来，用RecylerView仅仅是换一行代码的事情，<br>在上面的代码中我们使用了<br><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">LinearLayoutManager layoutManager = <span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>);  </div><div class="line"> <span class="comment">//设置布局管理器  </span></div><div class="line">recyclerView.setLayoutManager(layoutManager);</div></pre></td></tr></table></figure></p>
+<p>RecyclerView.LayoutManager是一个抽象类，系统为我们提供了三个实现类<br><br>①LinearLayoutManager即线性布局，这个是在上面的例子中我们用到的布局<br><br>②GridLayoutManager即表格布局<br><br>③StaggeredGridLayoutManager即流式布局，如瀑布流效果<br>假如将上述例子换成GridView的效果，那么相应的代码应该这样改</p>
+<p><code>recyclerView .setLayoutManager(new GridLayoutManager( this,4));</code></p>
+<p>除此之外上述的分隔线也要做相应的更改，因为在上述DividerItemDecoration这个方法中从</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div></pre></td><td class="code"><pre><div class="line">	<span class="keyword">final</span> <span class="keyword">int</span> left = parent.getPaddingLeft();  </div><div class="line">	<span class="keyword">final</span> <span class="keyword">int</span> right = parent.getWidth() - parent.getPaddingRight(); </div><div class="line">``` </div><div class="line">这两行我们可以看出来，它是绘制了一条线这条线就是从RecyclerView去掉左右边距后，剩余的部分，因为当显示成ListView时每一行就一个Item所以整体效果看上去就跟ListView差不多，而当展示成GridView那样的效果时，每一行就不止一个条目了，而有可能是多个,所以这个类就不再适用了，我们需要重新写一个</div><div class="line"></div><div class="line">```java</div><div class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DividerGridItemDecoration</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ItemDecoration</span>  </span></div><div class="line">	&#123;  </div><div class="line">	  </div><div class="line">	     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span>[] ATTRS = <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; android.R.attr.listDivider &#125;;  </div><div class="line">	     <span class="keyword">private</span> Drawable mDivider;  </div><div class="line">	  </div><div class="line">	     <span class="function"><span class="keyword">public</span> <span class="title">DividerGridItemDecoration</span><span class="params">(Context context)</span>  </span></div><div class="line">	     &#123;  </div><div class="line">	            <span class="keyword">final</span> TypedArray a = context.obtainStyledAttributes(ATTRS );  </div><div class="line">	            mDivider = a.getDrawable(<span class="number">0</span>);  </div><div class="line">	           a.recycle();  </div><div class="line">	     &#125;  </div><div class="line">	  </div><div class="line">	     <span class="meta">@Override</span>  </div><div class="line">	     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas c, RecyclerView parent, State state)</span>  </span></div><div class="line">	     &#123;  </div><div class="line">	  </div><div class="line">	           drawHorizontal(c, parent);  </div><div class="line">	           drawVertical(c, parent);  </div><div class="line">	  </div><div class="line">	     &#125;  </div><div class="line">	  </div><div class="line">	     <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getSpanCount</span><span class="params">(RecyclerView parent)</span>  </span></div><div class="line">	     &#123;  </div><div class="line">	            <span class="comment">// 列数  </span></div><div class="line">	            <span class="keyword">int</span> spanCount = -<span class="number">1</span>;  </div><div class="line">	           LayoutManager layoutManager = parent.getLayoutManager();  </div><div class="line">	            <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> GridLayoutManager)  </div><div class="line">	           &#123;  </div><div class="line">	  </div><div class="line">	                spanCount = ((GridLayoutManager) layoutManager).getSpanCount();  </div><div class="line">	           &#125; <span class="keyword">else</span> <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> StaggeredGridLayoutManager)  </div><div class="line">	           &#123;  </div><div class="line">	                spanCount = ((StaggeredGridLayoutManager) layoutManager)  </div><div class="line">	                           .getSpanCount();  </div><div class="line">	           &#125;  </div><div class="line">	            <span class="keyword">return</span> spanCount;  </div><div class="line">	     &#125;  </div><div class="line">	  </div><div class="line">	     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drawHorizontal</span><span class="params">(Canvas c, RecyclerView parent)</span>  </span></div><div class="line">	     &#123;  </div><div class="line">	            <span class="keyword">int</span> childCount = parent.getChildCount();  </div><div class="line">	            <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++)  </div><div class="line">	           &#123;  </div><div class="line">	                 <span class="keyword">final</span> View child = parent.getChildAt(i);  </div><div class="line">	                 <span class="keyword">final</span> RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child  </div><div class="line">	                           .getLayoutParams();  </div><div class="line">	                 <span class="keyword">final</span> <span class="keyword">int</span> left = child.getLeft() - params.leftMargin;  </div><div class="line">	                 <span class="keyword">final</span> <span class="keyword">int</span> right = child.getRight() + params.rightMargin  </div><div class="line">	                           + mDivider.getIntrinsicWidth();  </div><div class="line">	                 <span class="keyword">final</span> <span class="keyword">int</span> top = child.getBottom() + params.bottomMargin;  </div><div class="line">	                 <span class="keyword">final</span> <span class="keyword">int</span> bottom = top + mDivider.getIntrinsicHeight();  </div><div class="line">	                 mDivider.setBounds(left, top, right, bottom);  </div><div class="line">	                 mDivider.draw(c);  </div><div class="line">	           &#125;  </div><div class="line">	     &#125;  </div><div class="line">	  </div><div class="line">	     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drawVertical</span><span class="params">(Canvas c, RecyclerView parent)</span>  </span></div><div class="line">	     &#123;  </div><div class="line">	            <span class="keyword">final</span> <span class="keyword">int</span> childCount = parent.getChildCount();  </div><div class="line">	            <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++)  </div><div class="line">	           &#123;  </div><div class="line">	                 <span class="keyword">final</span> View child = parent.getChildAt(i);  </div><div class="line">	  </div><div class="line">	                 <span class="keyword">final</span> RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child  </div><div class="line">	                           .getLayoutParams();  </div><div class="line">	                 <span class="keyword">final</span> <span class="keyword">int</span> top = child.getTop() - params.topMargin;  </div><div class="line">	                 <span class="keyword">final</span> <span class="keyword">int</span> bottom = child.getBottom() + params.bottomMargin;  </div><div class="line">	                 <span class="keyword">final</span> <span class="keyword">int</span> left = child.getRight() + params.rightMargin;  </div><div class="line">	                 <span class="keyword">final</span> <span class="keyword">int</span> right = left + mDivider.getIntrinsicWidth();  </div><div class="line">	  </div><div class="line">	                 mDivider.setBounds(left, top, right, bottom);  </div><div class="line">	                 mDivider.draw(c);  </div><div class="line">	           &#125;  </div><div class="line">	     &#125;  </div><div class="line">	  </div><div class="line">	     <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isLastColum</span><span class="params">(RecyclerView parent, <span class="keyword">int</span> pos, <span class="keyword">int</span> spanCount,  </span></span></div><div class="line">	                 <span class="keyword">int</span> childCount)  </div><div class="line">	     &#123;  </div><div class="line">	           LayoutManager layoutManager = parent.getLayoutManager();  </div><div class="line">	            <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> GridLayoutManager)  </div><div class="line">	           &#123;  </div><div class="line">	                 <span class="keyword">if</span> ((pos + <span class="number">1</span>) % spanCount == <span class="number">0</span>) <span class="comment">// 如果是最后一列，则不需要绘制右边  </span></div><div class="line">	                &#123;  </div><div class="line">	                      <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">	                &#125;  </div><div class="line">	           &#125; <span class="keyword">else</span> <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> StaggeredGridLayoutManager)  </div><div class="line">	           &#123;  </div><div class="line">	                 <span class="keyword">int</span> orientation = ((StaggeredGridLayoutManager) layoutManager)  </div><div class="line">	                           .getOrientation();  </div><div class="line">	                 <span class="keyword">if</span> (orientation == StaggeredGridLayoutManager.VERTICAL )  </div><div class="line">	                &#123;  </div><div class="line">	                      <span class="keyword">if</span> ((pos + <span class="number">1</span>) % spanCount == <span class="number">0</span>) <span class="comment">// 如果是最后一列，则不需要绘制右边  </span></div><div class="line">	                     &#123;  </div><div class="line">	                            <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">	                     &#125;  </div><div class="line">	                &#125; <span class="keyword">else</span>  </div><div class="line">	                &#123;  </div><div class="line">	                     childCount = childCount - childCount % spanCount;  </div><div class="line">	                      <span class="keyword">if</span> (pos &gt;= childCount) <span class="comment">// 如果是最后一列，则不需要绘制右边  </span></div><div class="line">	                            <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">	                &#125;  </div><div class="line">	           &#125;  </div><div class="line">	            <span class="keyword">return</span> <span class="keyword">false</span>;  </div><div class="line">	     &#125;  </div><div class="line">	  </div><div class="line">	     <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isLastRaw</span><span class="params">(RecyclerView parent, <span class="keyword">int</span> pos, <span class="keyword">int</span> spanCount,  </span></span></div><div class="line">	                 <span class="keyword">int</span> childCount)  </div><div class="line">	     &#123;  </div><div class="line">	           LayoutManager layoutManager = parent.getLayoutManager();  </div><div class="line">	            <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> GridLayoutManager)  </div><div class="line">	           &#123;  </div><div class="line">	                childCount = childCount - childCount % spanCount;  </div><div class="line">	                 <span class="keyword">if</span> (pos &gt;= childCount) <span class="comment">// 如果是最后一行，则不需要绘制底部  </span></div><div class="line">	                      <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">	           &#125; <span class="keyword">else</span> <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> StaggeredGridLayoutManager)  </div><div class="line">	           &#123;  </div><div class="line">	                 <span class="keyword">int</span> orientation = ((StaggeredGridLayoutManager) layoutManager)  </div><div class="line">	                           .getOrientation();  </div><div class="line">	                 <span class="comment">// StaggeredGridLayoutManager 且纵向滚动  </span></div><div class="line">	                 <span class="keyword">if</span> (orientation == StaggeredGridLayoutManager.VERTICAL )  </div><div class="line">	                &#123;  </div><div class="line">	                     childCount = childCount - childCount % spanCount;  </div><div class="line">	                      <span class="comment">// 如果是最后一行，则不需要绘制底部  </span></div><div class="line">	                      <span class="keyword">if</span> (pos &gt;= childCount)  </div><div class="line">	                            <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">	                &#125; <span class="keyword">else</span>  </div><div class="line">	                 <span class="comment">// StaggeredGridLayoutManager 且横向滚动  </span></div><div class="line">	                &#123;  </div><div class="line">	                      <span class="comment">// 如果是最后一行，则不需要绘制底部  </span></div><div class="line">	                      <span class="keyword">if</span> ((pos + <span class="number">1</span>) % spanCount == <span class="number">0</span>)  </div><div class="line">	                     &#123;  </div><div class="line">	                            <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">	                     &#125;  </div><div class="line">	                &#125;  </div><div class="line">	           &#125;  </div><div class="line">	            <span class="keyword">return</span> <span class="keyword">false</span>;  </div><div class="line">	     &#125;  </div><div class="line">	  </div><div class="line">	     <span class="meta">@Override</span>  </div><div class="line">	     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getItemOffsets</span><span class="params">(Rect outRect, <span class="keyword">int</span> itemPosition,  </span></span></div><div class="line">	                RecyclerView parent)  </div><div class="line">	     &#123;  </div><div class="line">	            <span class="keyword">int</span> spanCount = getSpanCount(parent);  </div><div class="line">	            <span class="keyword">int</span> childCount = parent.getAdapter().getItemCount();  </div><div class="line">	            <span class="keyword">if</span> (isLastRaw(parent, itemPosition, spanCount, childCount))<span class="comment">// 如果是最后一行，则不需要绘制底部  </span></div><div class="line">	           &#123;  </div><div class="line">	                outRect.set(<span class="number">0</span>, <span class="number">0</span>, mDivider.getIntrinsicWidth(), <span class="number">0</span>);  </div><div class="line">	           &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isLastColum(parent, itemPosition, spanCount, childCount))<span class="comment">// 如果是最后一列，则不需要绘制右边  </span></div><div class="line">	           &#123;  </div><div class="line">	                outRect.set(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, mDivider.getIntrinsicHeight());  </div><div class="line">	           &#125; <span class="keyword">else</span>  </div><div class="line">	           &#123;  </div><div class="line">	                outRect.set(<span class="number">0</span>, <span class="number">0</span>, mDivider.getIntrinsicWidth(),  </div><div class="line">	                            mDivider.getIntrinsicHeight());  </div><div class="line">	           &#125;  </div><div class="line">	     &#125;  </div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>别忘了更改分隔线recyclerView .addItemDecoration(new DividerGridItemDecoration(this ));之后运行<br>可以看到如果你准备好了分隔线的这个类，从ListView效果到GridView效果，只需要几行代码，是不是瞬间感觉高大上了</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/RecyclerView/" rel="tag">#RecyclerView</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/16/HEXO-Github-搭建属于自己的博客/" rel="next" title="HEXO+Github,搭建属于自己的博客">
+                <i class="fa fa-chevron-left"></i> HEXO+Github,搭建属于自己的博客
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/18/android-通知Notification-加入默认系统声音和自定义声音/" rel="prev" title="android 通知Notification 加入默认系统声音和自定义声音">
+                android 通知Notification 加入默认系统声音和自定义声音 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/08/16/Android-RecyclerView-使用完全解析[一]/"
+     data-title="Android RecyclerView 使用完全解析[一]"
+     data-content=""
+     data-url="http://janker.cc/2015/08/16/Android-RecyclerView-使用完全解析[一]/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/16/Android-RecyclerView-使用完全解析[一]/"
+           data-title="Android RecyclerView 使用完全解析[一]" data-url="http://janker.cc/2015/08/16/Android-RecyclerView-使用完全解析[一]/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/logo.jpg"
+               alt="Janker" />
+          <p class="site-author-name" itemprop="name">Janker</p>
+          <p class="site-description motion-element" itemprop="description">如果coding不是为了promoting，那将毫无意义。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/janker0718" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/526783234" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RecyclerView的优点是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">1.RecyclerView的优点是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RecyclerView的用法"><span class="nav-number">1.2.</span> <span class="nav-text">2.RecyclerView的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-RecyclerView的初步用法-包括RecyclerView-Adapter用法"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 RecyclerView的初步用法(包括RecyclerView.Adapter用法)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#导入库"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">导入库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-RecyclerView增加分隔线"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 RecyclerView增加分隔线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-改变分隔线样式"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 改变分隔线样式</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Janker</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"janker0718"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
